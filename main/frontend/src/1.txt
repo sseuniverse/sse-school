@@ -1,0 +1,14 @@
+Action Pending
+
+------------ Auth -------------------------
+- sections/auth/AuthLoginForm.jsx
+- sections/auth/AuthNewPasswordForm.jsx
+- sections/auth/AuthRegisterForm.jsx
+- sections/auth/AuthResetPasswordForm.jsx
+- sections/auth/AuthWithSocial.jsx
+- sections/auth/LoginAuth0.jsx
+- sections/auth/.jsx
+- sections/auth/.jsx
+- sections/auth/.jsx
+- sections/auth/.jsx
+- sections/auth/.jsx
