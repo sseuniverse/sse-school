@@ -95,7 +95,7 @@ export default function Header() {
           {user && (
             <Button
               variant="contained"
-              target="_blank"
+              // target="_blank"
               rel="noopener"
               href={PATH_AFTER_LOGIN}
             >

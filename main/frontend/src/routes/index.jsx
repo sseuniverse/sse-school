@@ -19,9 +19,19 @@ import {
   Page404,
   ComingSoonPage,
   Page403,
+  PermissionDeniedPage, 
   Page500,
   HomePage,
   AboutPage,
+  ContactPage,
+  
+  // Dashboard - General
+  UserProfilePage,
+  UserCardsPage,
+  UserListPage,
+  UserCreatePage,
+  UserEditPage,
+  UserAccountPage,
 
   // Dashboard - General
   GeneralAppPage,
@@ -75,6 +85,22 @@ export default function Router() {
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: "app", element: <GeneralAppPage /> },
+        { path: "permission-denied", element: <PermissionDeniedPage /> },
+        {
+          path: "user",
+          children: [
+            {
+              element: <Navigate to="/dashboard/user/profile" replace />,
+              index: true,
+            },
+            { path: "profile", element: <UserProfilePage /> },
+            { path: "cards", element: <UserCardsPage /> },
+            { path: "list", element: <UserListPage /> },
+            { path: "new", element: <UserCreatePage /> },
+            { path: ":name/edit", element: <UserEditPage /> },
+            { path: "account", element: <UserAccountPage /> },
+          ],
+        },
       ],
     },
 
@@ -84,6 +110,7 @@ export default function Router() {
       children: [
         { path: "/", element: <HomePage /> },
         { path: "/about-us", element: <AboutPage /> },
+        { path: "/contact-us", element: <ContactPage /> },
       ],
     },
     {

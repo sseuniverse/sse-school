@@ -1,28 +1,30 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { m } = require("../model");
-const { JWT_EXPIRES_IN, JWT_SECRET } = require("../utils")
+const { JWT_EXPIRES_IN, JWT_SECRET } = require("../utils");
 
 const User = m.user;
 
 exports.Register = async (req, res) => {
   const { email, password, firstName, lastName } = req.body;
+  const displayName = `${firstName} ${lastName}`;
+
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    return res.status(400).json({ error: 'Email already exists' });
+  }
+  
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({
     email,
     password: hashedPassword,
-    firstName,
-    lastName,
+    displayName,
   });
-  try {
-    await user.save();
-    const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    res.json({ accessToken, user });
-  } catch (error) {
-    res.status(400).json({ error: "Email already exists" });
-  }
+  await user.save();
+  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+    expiresIn: "1h",
+  });
+  res.json({ accessToken, user });
 };
 
 exports.Login = async (req, res) => {
@@ -59,18 +61,4 @@ exports.MyProfile = async (req, res) => {
 exports.Logout = async (req, res) => {
   req.logout();
   res.json({ message: "Logged out successfully" });
-};
-
-exports.verifyToken = async (req, res, next) => {
-  const token = req.headers["x-access-token"];
-  if (!token) {
-    return res.status(401).json({ error: "No token provided" });
-  }
-  try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = { userId: decoded.userId }; // Update this line
-    next();
-  } catch (error) {
-    return res.status(401).json({ error: "Invalid token" });
-  }
 };

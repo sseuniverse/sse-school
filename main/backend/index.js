@@ -3,13 +3,18 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const userRouter = require("./src/routes/user");
-const { verifyToken } = require("./src/controllers");
+const userRouter = require("./src/routes/user.js");
+const eventRouter = require("./src/routes/event.js");
+const chatRoute = require("./src/routes/chat.js");
+const { verifyToken } = require("./src/middelware/auth.js");
 
 // Connect to MongoDB
-mongoose.connect(
-  "mongodb+srv://sseworld:sseworld04%40@main.9p2ytf6.mongodb.net/sm-s?retryWrites=true&w=majority&appName=main"
-).then(() => console.log("COnnected")).catch((err) => console.log(err))
+mongoose
+  .connect(
+    "mongodb+srv://sseworld:sseworld04%40@main.9p2ytf6.mongodb.net/sm-s?retryWrites=true&w=majority&appName=main"
+  )
+  .then(() => console.log("Connected"))
+  .catch((err) => console.log(err));
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
@@ -31,6 +36,8 @@ app.use(cookieParser());
 
 // Define the API routes
 app.use("/api/account", userRouter);
+app.use("/api/calendar", eventRouter);
+app.use("/api/chat", chatRoute);
 
 // Use middleware to verify token for protected routes
 app.use("/api/account/my-account", verifyToken);

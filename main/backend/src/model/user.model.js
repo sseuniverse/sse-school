@@ -2,60 +2,50 @@ const mongoose = require("mongoose");
 
 const accountSchema = new mongoose.Schema(
   {
-    role: {
+    displayName: {
       type: String,
       required: true,
-      maxlength: 50,
-    },
-    address: {
-      country: {
-        type: String,
-      },
-      state: {
-        type: String,
-      },
-      city: {
-        type: String,
-      },
-      address: {
-        type: String,
-      },
-      zip: {
-        type: Number,
-      },
     },
     email: {
       type: String,
       required: true,
-      maxlength: 50,
-    },
-    emailVerified: {
-      type: Boolean,
-      required: true,
-      default: false,
+      unique: true,
     },
     password: {
       type: String,
       required: true,
     },
-    firstName: String,
-    lastName: String,
-    phone: {
-      code: {
-        type: Number,
-      },
-      no: {
-        type: Number,
-      },
-    },
-    dob: {
-      type: Date,
-    },
-    fatherName: {
+    photoURL: {
       type: String,
     },
-    motherName: {
+    phoneNumber: {
       type: String,
+    },
+    country: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    zipCode: {
+      type: String,
+    },
+    about: {
+      type: String,
+    },
+    role: {
+      type: String,
+      enum: ["admin", "student", "teacher"],
+    },
+    isPublic: {
+      type: Boolean,
+      default: true,
     },
   },
   {

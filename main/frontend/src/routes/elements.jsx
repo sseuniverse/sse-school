@@ -38,8 +38,34 @@ export const AboutPage = Loadable(lazy(() => import("../pages/AboutPage")));
 export const ComingSoonPage = Loadable(
   lazy(() => import("../pages/ComingSoonPage"))
 );
+export const ContactPage = Loadable(lazy(() => import("../pages/ContactPage")));
+
+// DASHBOARD: USER
+export const UserProfilePage = Loadable(
+  lazy(() => import("../pages/dashboard/UserProfilePage"))
+);
+export const UserCardsPage = Loadable(
+  lazy(() => import("../pages/dashboard/UserCardsPage"))
+);
+export const UserListPage = Loadable(
+  lazy(() => import("../pages/dashboard/UserListPage"))
+);
+export const UserAccountPage = Loadable(
+  lazy(() => import("../pages/dashboard/UserAccountPage"))
+);
+export const UserCreatePage = Loadable(
+  lazy(() => import("../pages/dashboard/UserCreatePage"))
+);
+export const UserEditPage = Loadable(
+  lazy(() => import("../pages/dashboard/UserEditPage"))
+);
 
 // DASHBOARD: GENERAL
 export const GeneralAppPage = Loadable(
   lazy(() => import("../pages/dashboard/GeneralAppPage"))
+);
+
+
+export const PermissionDeniedPage = Loadable(
+  lazy(() => import("../pages/dashboard/PermissionDeniedPage"))
 );
