@@ -6,6 +6,7 @@ import SimpleLayout from "../layouts/simple";
 import CompactLayout from "../layouts/compact";
 import DashboardLayout from "../layouts/dashboard";
 import { PATH_AFTER_LOGIN } from "../config-global";
+import RoleLayout from "../auth/RoleBasedGuard";
 
 import {
   // Auth
@@ -19,13 +20,14 @@ import {
   Page404,
   ComingSoonPage,
   Page403,
-  PermissionDeniedPage, 
+  PermissionDeniedPage,
   Page500,
   HomePage,
   AboutPage,
   ContactPage,
-  
-  // Dashboard - General
+  MaintenancePage,
+
+  // Dashboard - User
   UserProfilePage,
   UserCardsPage,
   UserListPage,
@@ -35,7 +37,16 @@ import {
 
   // Dashboard - General
   GeneralAppPage,
+  CalendarPage,
+
+  // Dashboard - School
+  SchoolListPage,
+  SchoolCreatePage,
+  SchoolEditPage,
 } from "./elements";
+
+const roleAd = "admin";
+const roleTe = "teacher";
 
 // ----------------------------------------------------------------------
 
@@ -101,6 +112,40 @@ export default function Router() {
             { path: "account", element: <UserAccountPage /> },
           ],
         },
+        {
+          path: "school",
+          children: [
+            {
+              element: <Navigate to="/dashboard/school/list" replace />,
+              index: true,
+            },
+            {
+              path: "list",
+              element: (
+                <RoleLayout hasContent roles={[roleAd]}>
+                  <SchoolListPage />
+                </RoleLayout>
+              ),
+            },
+            {
+              path: ":id/edit",
+              element: (
+                <RoleLayout hasContent roles={[roleAd]}>
+                  <SchoolEditPage />
+                </RoleLayout>
+              ),
+            },
+            {
+              path: "new",
+              element: (
+                <RoleLayout hasContent roles={[roleAd]}>
+                  <SchoolCreatePage />
+                </RoleLayout>
+              ),
+            },
+          ],
+        },
+        // { path: "calendar", element: <CalendarPage /> },
       ],
     },
 
@@ -120,6 +165,7 @@ export default function Router() {
         { path: "403", element: <Page403 /> },
         { path: "500", element: <Page500 /> },
         { path: "/comming-soon", element: <ComingSoonPage /> },
+        { path: "maintenance", element: <MaintenancePage /> },
       ],
     },
     { path: "*", element: <Navigate to="/404" replace /> },

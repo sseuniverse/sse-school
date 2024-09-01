@@ -73,7 +73,7 @@ export default function UserAccountPage() {
   return (
     <>
       <Helmet>
-        <title> User: Account Settings | Minimal UI</title>
+        <title> User: Account Settings | SSE SMS</title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : "lg"}>

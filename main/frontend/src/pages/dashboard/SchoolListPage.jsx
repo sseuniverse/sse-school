@@ -1,76 +1,65 @@
 import { Helmet } from "react-helmet-async";
 import { kebabCase } from "change-case";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-// @mui
 import {
-  Tab,
-  Tabs,
   Card,
   Table,
   Button,
   Tooltip,
-  Divider,
   TableBody,
   Container,
   IconButton,
   TableContainer,
 } from "@mui/material";
-// routes
+import { useDispatch, useSelector } from "../../redux/store";
+import { getSchools } from "../../redux/slices/school";
 import { PATH_DASHBOARD } from "../../routes/paths";
-// _mock_
-import { _userList } from "../../_mock/arrays";
-// components
-import Iconify from "../../components/iconify";
-import Scrollbar from "../../components/scrollbar";
-import ConfirmDialog from "../../components/confirm-dialog";
-import CustomBreadcrumbs from "../../components/custom-breadcrumbs";
 import { useSettingsContext } from "../../components/settings";
+import { useTable, getComparator, emptyRows } from "../../components/table";
 import {
-  useTable,
-  getComparator,
-  emptyRows,
   TableNoData,
+  TableSkeleton,
   TableEmptyRows,
   TableHeadCustom,
   TableSelectedAction,
   TablePaginationCustom,
 } from "../../components/table";
-// sections
+import Iconify from "../../components/iconify";
+import Scrollbar from "../../components/scrollbar";
+import CustomBreadcrumbs from "../../components/custom-breadcrumbs";
+import ConfirmDialog from "../../components/confirm-dialog";
 import {
-  UserTableToolbar,
-  UserTableRow,
-} from "../../sections/dashboard/user/list";
-
-// ----------------------------------------------------------------------
-
-const STATUS_OPTIONS = ["all", "active", "banned"];
-
-const ROLE_OPTIONS = [
-  "all",
-  "ux designer",
-  "full stack designer",
-  "backend developer",
-  "project manager",
-  "leader",
-  "ui designer",
-  "ui/ux designer",
-  "front end developer",
-  "full stack developer",
-];
+  SchoolTableRow,
+  SchoolTableToolbar,
+} from "../../sections/dashboard/school/list";
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", align: "left" },
-  { id: "company", label: "Company", align: "left" },
-  { id: "role", label: "Role", align: "left" },
-  { id: "isVerified", label: "Verified", align: "center" },
-  { id: "status", label: "Status", align: "left" },
+  { id: "address", label: "Address", align: "left" },
+  { id: "schoolUid", label: "School UID", align: "left" },
+  { id: "city", label: "City", align: "left" },
+  { id: "state", label: "State", align: "left" },
+  { id: "zip", label: "Zip", align: "left" },
+  { id: "country", label: "Country", align: "left" },
+  { id: "phoneNumber", label: "Phone Number", align: "left" },
+  { id: "email", label: "Email", align: "left" },
+  { id: "website", label: "Website", align: "left" },
+  { id: "type", label: "Type", align: "left" },
+  { id: "board", label: "Board", align: "left" },
+  { id: "isActive", label: "Is Active", align: "left" },
+  { id: "isVerified", label: "Is Verified", align: "left" },
+  { id: "levels", label: "Levels", align: "left" },
+  { id: "createdAt", label: "Created At", align: "left" },
   { id: "" },
 ];
 
-// ----------------------------------------------------------------------
+const STATUS_OPTIONS = [
+  { value: true, label: "Active" },
+  { value: false, label: "Inactive" },
+];
 
-export default function UserListPage() {
+export default function SchoolListPage() {
   const {
     dense,
     page,
@@ -78,47 +67,49 @@ export default function UserListPage() {
     orderBy,
     rowsPerPage,
     setPage,
-    //
     selected,
     setSelected,
     onSelectRow,
     onSelectAllRows,
-    //
     onSort,
     onChangeDense,
     onChangePage,
     onChangeRowsPerPage,
-  } = useTable();
+  } = useTable({ defaultOrderBy: "createdAt" });
   const { themeStretch } = useSettingsContext();
   const navigate = useNavigate();
-  const [tableData, setTableData] = useState(_userList);
-  const [openConfirm, setOpenConfirm] = useState(false);
+  const dispatch = useDispatch();
+  const { schools, isLoading } = useSelector((state) => state.school);
+  const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState("");
-  const [filterRole, setFilterRole] = useState("all");
-  const [filterStatus, setFilterStatus] = useState("all");
+  const [filterStatus, setFilterStatus] = useState([]);
+  const [openConfirm, setOpenConfirm] = useState(false);
+
+  useEffect(() => {
+    dispatch(getSchools());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (schools.length) {
+      setTableData(schools);
+    }
+  }, [schools]);
 
   const dataFiltered = applyFilter({
     inputData: tableData,
     comparator: getComparator(order, orderBy),
     filterName,
-    filterRole,
     filterStatus,
   });
-
   const dataInPage = dataFiltered.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
-
-  const denseHeight = dense ? 52 : 72;
-
-  const isFiltered =
-    filterName !== "" || filterRole !== "all" || filterStatus !== "all";
-
+  const denseHeight = dense ? 60 : 80;
+  const isFiltered = filterName !== "" || !!filterStatus.length;
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
-    (!dataFiltered.length && !!filterRole) ||
-    (!dataFiltered.length && !!filterStatus);
+    (!isLoading && !dataFiltered.length);
 
   const handleOpenConfirm = () => {
     setOpenConfirm(true);
@@ -128,19 +119,14 @@ export default function UserListPage() {
     setOpenConfirm(false);
   };
 
-  const handleFilterStatus = (event, newValue) => {
-    setPage(0);
-    setFilterStatus(newValue);
-  };
-
   const handleFilterName = (event) => {
     setPage(0);
     setFilterName(event.target.value);
   };
 
-  const handleFilterRole = (event) => {
+  const handleFilterStatus = (event) => {
     setPage(0);
-    setFilterRole(event.target.value);
+    setFilterStatus(event.target.value);
   };
 
   const handleDeleteRow = (id) => {
@@ -176,64 +162,52 @@ export default function UserListPage() {
   };
 
   const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.user.edit(kebabCase(id)));
+    navigate(PATH_DASHBOARD.school.edit(kebabCase(id)));
+  };
+
+  const handleViewRow = (id) => {
+    navigate(PATH_DASHBOARD.school.view(kebabCase(id)));
   };
 
   const handleResetFilter = () => {
     setFilterName("");
-    setFilterRole("all");
-    setFilterStatus("all");
+    setFilterStatus([]);
   };
 
   return (
     <>
       <Helmet>
-        <title> User: List | SSE SMS</title>
+        <title>School | SSE SMS</title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : "lg"}>
         <CustomBreadcrumbs
-          heading="User List"
+          heading="School List"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
-            { name: "User", href: PATH_DASHBOARD.user.root },
+            { name: "School", href: PATH_DASHBOARD.school.root },
             { name: "List" },
           ]}
           action={
             <Button
               component={RouterLink}
-              to={PATH_DASHBOARD.user.new}
+              to={PATH_DASHBOARD.school.new}
               variant="contained"
               startIcon={<Iconify icon="eva:plus-fill" />}
             >
-              New User
+              New School
             </Button>
           }
         />
 
         <Card>
-          <Tabs
-            value={filterStatus}
-            onChange={handleFilterStatus}
-            sx={{
-              px: 2,
-              bgcolor: "background.neutral",
-            }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
-          <Divider />
-
-          <UserTableToolbar
-            isFiltered={isFiltered}
+          <SchoolTableToolbar
             filterName={filterName}
-            filterRole={filterRole}
-            optionsRole={ROLE_OPTIONS}
+            filterStatus={filterStatus}
             onFilterName={handleFilterName}
-            onFilterRole={handleFilterRole}
+            onFilterStatus={handleFilterStatus}
+            statusOptions={STATUS_OPTIONS}
+            isFiltered={isFiltered}
             onResetFilter={handleResetFilter}
           />
 
@@ -256,9 +230,8 @@ export default function UserListPage() {
                 </Tooltip>
               }
             />
-
             <Scrollbar>
-              <Table size={dense ? "small" : "medium"} sx={{ minWidth: 800 }}>
+              <Table size={dense ? "small" : "medium"} sx={{ minWidth: 960 }}>
                 <TableHeadCustom
                   order={order}
                   orderBy={orderBy}
@@ -275,18 +248,28 @@ export default function UserListPage() {
                 />
 
                 <TableBody>
-                  {dataFiltered
+                  {(isLoading ? [...Array(rowsPerPage)] : dataFiltered)
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => (
-                      <UserTableRow
-                        key={row.id}
-                        row={row}
-                        selected={selected.includes(row.id)}
-                        onSelectRow={() => onSelectRow(row.id)}
-                        onDeleteRow={() => handleDeleteRow(row.id)}
-                        onEditRow={() => handleEditRow(row.name)}
-                      />
-                    ))}
+                    .map((row, index) =>
+                      row ? (
+                        <SchoolTableRow
+                          key={row.id}
+                          row={row}
+                          selected={selected.includes(row.id)}
+                          onSelectRow={() => onSelectRow(row.id)}
+                          onDeleteRow={() => handleDeleteRow(row.id)}
+                          onEditRow={() => handleEditRow(row.id)}
+                          onViewRow={() => handleViewRow(row.id)}
+                        />
+                      ) : (
+                        !isNotFound && (
+                          <TableSkeleton
+                            key={index}
+                            sx={{ height: denseHeight }}
+                          />
+                        )
+                      )
+                    )}
 
                   <TableEmptyRows
                     height={denseHeight}
@@ -298,14 +281,12 @@ export default function UserListPage() {
               </Table>
             </Scrollbar>
           </TableContainer>
-
           <TablePaginationCustom
             count={dataFiltered.length}
             page={page}
             rowsPerPage={rowsPerPage}
             onPageChange={onChangePage}
             onRowsPerPageChange={onChangeRowsPerPage}
-            //
             dense={dense}
             onChangeDense={onChangeDense}
           />
@@ -339,15 +320,7 @@ export default function UserListPage() {
   );
 }
 
-// ----------------------------------------------------------------------
-
-function applyFilter({
-  inputData,
-  comparator,
-  filterName,
-  filterStatus,
-  filterRole,
-}) {
+function applyFilter({ inputData, comparator, filterName, filterStatus }) {
   const stabilizedThis = inputData.map((el, index) => [el, index]);
 
   stabilizedThis.sort((a, b) => {
@@ -360,16 +333,15 @@ function applyFilter({
 
   if (filterName) {
     inputData = inputData.filter(
-      (user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+      (product) =>
+        product.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 
-  if (filterStatus !== "all") {
-    inputData = inputData.filter((user) => user.status === filterStatus);
-  }
-
-  if (filterRole !== "all") {
-    inputData = inputData.filter((user) => user.role === filterRole);
+  if (filterStatus.length) {
+    inputData = inputData.filter((product) =>
+      filterStatus.includes(product.inventoryType)
+    );
   }
 
   return inputData;

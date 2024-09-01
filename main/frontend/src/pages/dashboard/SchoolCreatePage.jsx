@@ -1,41 +1,35 @@
 import { Helmet } from "react-helmet-async";
-// @mui
 import { Container } from "@mui/material";
-// routes
 import { PATH_DASHBOARD } from "../../routes/paths";
-// components
-import { useSettingsContext } from "../../components/settings";
 import CustomBreadcrumbs from "../../components/custom-breadcrumbs";
-// sections
-import UserNewEditForm from "../../sections/dashboard/user/UserNewEditForm";
+import { useSettingsContext } from "../../components/settings";
+import SchoolNewEditForm from "../../sections/dashboard/school/SchoolNewEditForm";
 
 // ----------------------------------------------------------------------
 
-export default function UserCreatePage() {
+export default function SchoolEditPage() {
   const { themeStretch } = useSettingsContext();
 
   return (
     <>
       <Helmet>
-        <title> User: Create a new user | SSE SMS</title>
+        <title> School: New school | SSE SMS</title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : "lg"}>
         <CustomBreadcrumbs
-          heading="Create a new user"
+          heading="Create a new school"
           links={[
+            { name: "Dashboard", href: PATH_DASHBOARD.root },
             {
-              name: "Dashboard",
-              href: PATH_DASHBOARD.root,
+              name: "School",
+              href: PATH_DASHBOARD.school.root,
             },
-            {
-              name: "User",
-              href: PATH_DASHBOARD.user.list,
-            },
-            { name: "New user" },
+            { name: "New School" },
           ]}
         />
-        <UserNewEditForm />
+
+        <SchoolNewEditForm />
       </Container>
     </>
   );

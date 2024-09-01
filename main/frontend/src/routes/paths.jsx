@@ -85,6 +85,13 @@ export const PATH_DASHBOARD = {
       "/e-commerce/product/nike-air-force-1-ndestrukt"
     ),
   },
+  school: {
+    root: path(ROOTS_DASHBOARD, "/school"),
+    list: path(ROOTS_DASHBOARD, "/school/list"),
+    new: path(ROOTS_DASHBOARD, "/school/new"),
+    view: (id) => path(ROOTS_DASHBOARD, `/school/${id}`),
+    edit: (id) => path(ROOTS_DASHBOARD, `/school/${id}/edit`),
+  },
   invoice: {
     root: path(ROOTS_DASHBOARD, "/invoice"),
     list: path(ROOTS_DASHBOARD, "/invoice/list"),

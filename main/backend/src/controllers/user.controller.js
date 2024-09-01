@@ -22,7 +22,7 @@ exports.Register = async (req, res) => {
   });
   await user.save();
   const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: JWT_EXPIRES_IN,
   });
   res.json({ accessToken, user });
 };
@@ -62,3 +62,28 @@ exports.Logout = async (req, res) => {
   req.logout();
   res.json({ message: "Logged out successfully" });
 };
+
+exports.DeleteAccount = async (req, res) => {
+  const { authorization } = req.headers;
+  const { email, password } = req.body
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Authorization token missing",
+    });
+  }
+  // console.log(authorization);
+  const accessToken = authorization.split(" ")[1];
+  const data = jwt.verify(accessToken, JWT_SECRET);
+  const userId = data.userId;
+  const uid = await User.findOne({ email: email });
+  const isValidPassword = await bcrypt.compare(password, uid.password);
+  if(uid._id === userId){
+    if (!isValidPassword) {
+      return res.status(401).json({ error: "Invalid password" });
+    }
+    User.findByIdAndDelete(userId)
+    res.status(200).json("Account Deleted Successfully")
+  } else {
+    res.status(401).json("Account Deleted Successfully")
+  }
+}

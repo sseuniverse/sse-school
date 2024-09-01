@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import { useState } from "react";
-// @mui
 import {
   Box,
   Card,
@@ -10,21 +9,16 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
-// routes
 import { PATH_DASHBOARD } from "../../routes/paths";
-// components
 import { useSettingsContext } from "../../components/settings";
 import CustomBreadcrumbs from "../../components/custom-breadcrumbs";
-// auth
 import RoleBasedGuard from "../../auth/RoleBasedGuard";
 
 // ----------------------------------------------------------------------
 
 export default function PermissionDeniedPage() {
   const { themeStretch } = useSettingsContext();
-
   const [role, setRole] = useState("admin");
-
   const handleChangeRole = (event, newRole) => {
     if (newRole !== null) {
       setRole(newRole);
@@ -34,7 +28,7 @@ export default function PermissionDeniedPage() {
   return (
     <>
       <Helmet>
-        <title> Other Cases: Permission Denied | Minimal UI</title>
+        <title> Other Cases: Permission Denied | SSE SMS</title>
       </Helmet>
 
       <Container maxWidth={themeStretch ? false : "lg"}>
@@ -61,7 +55,6 @@ export default function PermissionDeniedPage() {
           <ToggleButton value="admin" aria-label="admin role">
             isAdmin
           </ToggleButton>
-
           <ToggleButton value="user" aria-label="user role">
             isUser
           </ToggleButton>
@@ -75,7 +68,6 @@ export default function PermissionDeniedPage() {
                   title={`Card ${index + 1}`}
                   subheader="Proin viverra ligula"
                 />
-
                 <Typography sx={{ p: 3, color: "text.secondary" }}>
                   Aliquam lorem ante, dapibus in, viverra quis, feugiat a,
                   tellus. In enim justo, rhoncus ut, imperdiet a, venenatis

@@ -39,6 +39,9 @@ export const ComingSoonPage = Loadable(
   lazy(() => import("../pages/ComingSoonPage"))
 );
 export const ContactPage = Loadable(lazy(() => import("../pages/ContactPage")));
+export const MaintenancePage = Loadable(
+  lazy(() => import("../pages/MaintenancePage"))
+);
 
 // DASHBOARD: USER
 export const UserProfilePage = Loadable(
@@ -65,7 +68,23 @@ export const GeneralAppPage = Loadable(
   lazy(() => import("../pages/dashboard/GeneralAppPage"))
 );
 
-
 export const PermissionDeniedPage = Loadable(
   lazy(() => import("../pages/dashboard/PermissionDeniedPage"))
+);
+
+export const CalendarPage = Loadable(
+  lazy(() => import("../pages/dashboard/CalendarPage"))
+);
+
+// Dashboard: School
+export const SchoolListPage = Loadable(
+  lazy(() => import("../pages/dashboard/SchoolListPage"))
+);
+
+export const SchoolEditPage = Loadable(
+  lazy(() => import("../pages/dashboard/SchoolEditPage"))
+);
+
+export const SchoolCreatePage = Loadable(
+  lazy(() => import("../pages/dashboard/SchoolCreatePage"))
 );

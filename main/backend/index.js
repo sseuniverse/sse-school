@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const userRouter = require("./src/routes/user.js");
 const eventRouter = require("./src/routes/event.js");
 const chatRoute = require("./src/routes/chat.js");
+const schoolRoute = require("./src/routes/school.js");
 const { verifyToken } = require("./src/middelware/auth.js");
 
 // Connect to MongoDB
@@ -38,6 +39,7 @@ app.use(cookieParser());
 app.use("/api/account", userRouter);
 app.use("/api/calendar", eventRouter);
 app.use("/api/chat", chatRoute);
+app.use("/api/schools", schoolRoute);
 
 // Use middleware to verify token for protected routes
 app.use("/api/account/my-account", verifyToken);
