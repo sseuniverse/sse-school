@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
 import { useEffect } from "react";
-import { kebabCase } from "change-case";
 import { useParams } from "react-router-dom";
 import { Container } from "@mui/material";
 import { useDispatch, useSelector } from "../../redux/store";
@@ -18,12 +17,14 @@ export default function SchoolEditPage() {
   const { id } = useParams();
 
   const currentSchool = useSelector((state) =>
-    state.school.schools.find((school) => kebabCase(school.name) === id)
+    state.school.schools.find((school) => school._id === id)
   );
 
   useEffect(() => {
     dispatch(getSchools());
   }, [dispatch]);
+
+  console.log(currentSchool)
 
   return (
     <>
@@ -40,7 +41,7 @@ export default function SchoolEditPage() {
               name: "School",
               href: PATH_DASHBOARD.school.root,
             },
-            { name: currentProduct?.name },
+            { name: currentSchool?.name },
           ]}
         />
 

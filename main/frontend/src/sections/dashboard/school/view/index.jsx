@@ -1,1 +1,1 @@
-import PropTypes from "prop-types";
+export { default as SchoolCover } from "./SchoolCover"

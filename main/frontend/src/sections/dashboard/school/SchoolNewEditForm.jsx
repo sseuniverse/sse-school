@@ -26,7 +26,8 @@ import FormProvider, {
   RHFTextField,
   RHFUploadAvatar,
 } from "../../../components/hook-form";
-import { createSchool } from "../../../redux/slices/school";
+import { createSchool, updateSchool } from "../../../redux/slices/school";
+import { useDispatch } from "../../../redux/store"
 
 // ----------------------------------------------------------------------
 
@@ -38,6 +39,7 @@ SchoolNewEditForm.propTypes = {
 export default function SchoolNewEditForm({ isEdit = false, currentSchool }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch()
 
   const NewSchoolSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -108,7 +110,6 @@ export default function SchoolNewEditForm({ isEdit = false, currentSchool }) {
   } = methods;
 
   const values = watch();
-  console.log(values);
 
   useEffect(() => {
     if (isEdit && currentSchool) {
@@ -122,10 +123,15 @@ export default function SchoolNewEditForm({ isEdit = false, currentSchool }) {
 
   const onSubmit = async (data) => {
     try {
-      await createSchool(data);
       await new Promise((resolve) => setTimeout(resolve, 500));
+      if (isEdit) {
+        await dispatch(updateSchool(data));
+        enqueueSnackbar("Update success!")
+      } else {
+        await dispatch(createSchool(data));
+        enqueueSnackbar("Create success!")
+      }
       reset();
-      enqueueSnackbar(!isEdit ? "Create success!" : "Update success!");
       navigate(PATH_DASHBOARD.school.list);
       console.log("DATA", data);
     } catch (error) {

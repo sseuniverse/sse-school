@@ -17,7 +17,7 @@ const schoolSchema = new mongoose.Schema(
     },
     schoolUid: {
       type: String,
-      default: "0",
+      default: "1",
       unique: true,
     },
     city: {

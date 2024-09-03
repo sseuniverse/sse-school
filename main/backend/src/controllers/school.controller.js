@@ -1,6 +1,11 @@
 // school.controller.js
 const { m } = require("../model");
-const School = m.school
+const randomatic = require("randomatic");
+const School = m.school;
+
+/**
+ * Get Udise Code
+ */
 
 /**
  * Get all schools
@@ -41,13 +46,12 @@ exports.getSchoolById = async (req, res) => {
  */
 exports.createSchool = async (req, res) => {
   try {
-    // const uid = School.findOne().sort({ _id: -1 })
-    // console.log(uid)
-    const school = new School(req.body);
+    const code = randomatic("0", 8);
+    const school = new School({ ...req.body, schoolUid: code });
     await school.save();
-    res.json(uid);
+    res.json(school);
   } catch (err) {
-    res.status(500).json({ message: "Error creating school" });
+    res.status(500).json({ message: `Error creating school. Error : ${err}` });
   }
 };
 

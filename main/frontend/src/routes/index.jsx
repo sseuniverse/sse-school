@@ -43,6 +43,7 @@ import {
   SchoolListPage,
   SchoolCreatePage,
   SchoolEditPage,
+  SchoolViewPage
 } from "./elements";
 
 const roleAd = "admin";
@@ -143,6 +144,10 @@ export default function Router() {
                 </RoleLayout>
               ),
             },
+            {
+              path: ":id",
+              element: <SchoolViewPage />
+            }
           ],
         },
         // { path: "calendar", element: <CalendarPage /> },

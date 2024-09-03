@@ -4,11 +4,11 @@ import LoadingScreen from "../components/loading-screen";
 // ----------------------------------------------------------------------
 
 const Loadable = (Component) => (props) =>
-  (
-    <Suspense fallback={<LoadingScreen />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<LoadingScreen />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 // ----------------------------------------------------------------------
 
@@ -87,4 +87,8 @@ export const SchoolEditPage = Loadable(
 
 export const SchoolCreatePage = Loadable(
   lazy(() => import("../pages/dashboard/SchoolCreatePage"))
+);
+
+export const SchoolViewPage = Loadable(
+  lazy(() => import("../pages/dashboard/SchoolViewPage"))
 );

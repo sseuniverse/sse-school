@@ -130,7 +130,7 @@ export default function SchoolListPage() {
   };
 
   const handleDeleteRow = (id) => {
-    const deleteRow = tableData.filter((row) => row.id !== id);
+    const deleteRow = tableData.filter((row) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
 
@@ -143,7 +143,7 @@ export default function SchoolListPage() {
 
   const handleDeleteRows = (selectedRows) => {
     const deleteRows = tableData.filter(
-      (row) => !selectedRows.includes(row.id)
+      (row) => !selectedRows.includes(row._id)
     );
     setSelected([]);
     setTableData(deleteRows);
@@ -162,11 +162,11 @@ export default function SchoolListPage() {
   };
 
   const handleEditRow = (id) => {
-    navigate(PATH_DASHBOARD.school.edit(kebabCase(id)));
+    navigate(PATH_DASHBOARD.school.edit(id));
   };
 
   const handleViewRow = (id) => {
-    navigate(PATH_DASHBOARD.school.view(kebabCase(id)));
+    navigate(PATH_DASHBOARD.school.view(id));
   };
 
   const handleResetFilter = () => {
@@ -219,7 +219,7 @@ export default function SchoolListPage() {
               onSelectAllRows={(checked) =>
                 onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row._id)
                 )
               }
               action={
@@ -242,7 +242,7 @@ export default function SchoolListPage() {
                   onSelectAllRows={(checked) =>
                     onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row._id)
                     )
                   }
                 />
@@ -253,13 +253,13 @@ export default function SchoolListPage() {
                     .map((row, index) =>
                       row ? (
                         <SchoolTableRow
-                          key={row.id}
+                          key={row._id}
                           row={row}
-                          selected={selected.includes(row.id)}
-                          onSelectRow={() => onSelectRow(row.id)}
-                          onDeleteRow={() => handleDeleteRow(row.id)}
-                          onEditRow={() => handleEditRow(row.id)}
-                          onViewRow={() => handleViewRow(row.id)}
+                          selected={selected.includes(row._id)}
+                          onSelectRow={() => onSelectRow(row._id)}
+                          onDeleteRow={() => handleDeleteRow(row._id)}
+                          onEditRow={() => handleEditRow(row._id)}
+                          onViewRow={() => handleViewRow(row._id)}
                         />
                       ) : (
                         !isNotFound && (
