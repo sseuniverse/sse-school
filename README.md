@@ -66,4 +66,4 @@ The School Management System is a comprehensive platform designed to streamline 
 -----------------------
 
 * The School Management System is licensed under the MIT Massachusetts Institute of Technology (MIT) version 3.0.
-* Copyright 2023 BLACKBOX AI. All rights reserved.
+* Copyright 2024 SSE World. All rights reserved.
