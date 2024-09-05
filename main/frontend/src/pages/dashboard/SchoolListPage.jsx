@@ -13,7 +13,7 @@ import {
   TableContainer,
 } from "@mui/material";
 import { useDispatch, useSelector } from "../../redux/store";
-import { getSchools } from "../../redux/slices/school";
+import { getSchools, deleteSchool } from "../../redux/slices/school";
 import { PATH_DASHBOARD } from "../../routes/paths";
 import { useSettingsContext } from "../../components/settings";
 import { useTable, getComparator, emptyRows } from "../../components/table";
@@ -130,6 +130,7 @@ export default function SchoolListPage() {
   };
 
   const handleDeleteRow = (id) => {
+    dispatch(deleteSchool(id));
     const deleteRow = tableData.filter((row) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
@@ -142,6 +143,7 @@ export default function SchoolListPage() {
   };
 
   const handleDeleteRows = (selectedRows) => {
+    dispatch(deleteSchool(selectedRows));
     const deleteRows = tableData.filter(
       (row) => !selectedRows.includes(row._id)
     );

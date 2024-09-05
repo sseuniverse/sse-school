@@ -1,6 +1,7 @@
 // school.controller.js
 const { m } = require("../model");
 const randomatic = require("randomatic");
+
 const School = m.school;
 
 /**
@@ -49,6 +50,7 @@ exports.createSchool = async (req, res) => {
     const code = randomatic("0", 8);
     const school = new School({ ...req.body, schoolUid: code });
     await school.save();
+    // console.log(req.body)
     res.json(school);
   } catch (err) {
     res.status(500).json({ message: `Error creating school. Error : ${err}` });
@@ -82,9 +84,9 @@ exports.updateSchool = async (req, res) => {
  */
 exports.deleteSchool = async (req, res) => {
   try {
-    await School.findByIdAndRemove(req.params.id);
+    await School.findByIdAndDelete(req.params.id);
     res.json({ message: "School deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Error deleting school" });
+    res.status(500).json({ message: `Error deleting school err: ${err}` });
   }
 };

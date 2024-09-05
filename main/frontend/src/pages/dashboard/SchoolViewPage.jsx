@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Tab, Card, Tabs, Container, Box } from "@mui/material"
 import { PATH_DASHBOARD } from "../../routes/paths"
 import { useAuthContext } from "../../auth/useAuthContext"
@@ -8,12 +8,26 @@ import Iconify from "../../components/iconify"
 import CustomBreadcrumbs from "../../components/custom-breadcrumbs"
 import { useSettingsContext } from "../../components/settings"
 import { SchoolCover } from "../../sections/dashboard/school/view"
+import { useParams } from "react-router-dom"
+import { useDispatch, useSelector } from "../../redux/store"
+import { getSchool } from "../../redux/slices/school"
 
 // ----------------------------------------------------------------------
 
 export default function SchoolViewPage() {
     const { themeStretch } = useSettingsContext()
-    const { user } = useAuthContext()
+    const dispatch = useDispatch();
+    const { id } = useParams()
+
+    useEffect(() => {
+        dispatch(getSchool(id));
+    }, [dispatch, id]);
+
+    const { school } = useSelector((state) => state.school);
+    const namAdd = `${school?.name}, ${school?.city}`
+    const disAdd = `${school?.state}, ${school?.country}`
+
+    // console.log(school)
 
     // const TABS = [
     //     {
@@ -58,7 +72,7 @@ export default function SchoolViewPage() {
                 <CustomBreadcrumbs heading="School" links={[
                     { name: 'Dashboard', href: PATH_DASHBOARD.root },
                     { name: 'School', href: PATH_DASHBOARD.school.root },
-                    { name: user?.displayName },
+                    { name: school?.name },
                 ]} />
                 <Card
                     sx={{
@@ -67,7 +81,7 @@ export default function SchoolViewPage() {
                         position: 'relative',
                     }}
                 >
-                    <ProfileCover name={user?.displayName} role={_userAbout.role} cover={_userAbout.cover} />
+                    <SchoolCover name={namAdd} role={disAdd} cover={_userAbout.cover} school={school} />
                 </Card>
             </Container>
         </>

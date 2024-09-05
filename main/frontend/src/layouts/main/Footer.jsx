@@ -40,8 +40,8 @@ const LINKS = [
 
 export default function Footer() {
   const { pathname } = useLocation();
-
   const isHome = pathname === '/';
+  const year = new Date().getFullYear()
 
   const simpleFooter = (
     <Box
@@ -57,7 +57,7 @@ export default function Footer() {
         <Logo sx={{ mb: 1, mx: 'auto' }} />
 
         <Typography variant="caption" component="div">
-          © All rights reserved
+          © {year}. All rights reserved
           <br /> made by &nbsp;
           <Link href="https://github.com/sseuniverse"> SSE Universe </Link>
         </Typography>
@@ -158,7 +158,7 @@ export default function Footer() {
             textAlign: { xs: 'center', md: 'left' },
           }}
         >
-          © 2021. All rights reserved
+          © {year}. All rights reserved
         </Typography>
       </Container>
     </Box>

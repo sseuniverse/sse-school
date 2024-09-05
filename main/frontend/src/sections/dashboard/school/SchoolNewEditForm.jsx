@@ -34,9 +34,10 @@ import { useDispatch } from "../../../redux/store"
 SchoolNewEditForm.propTypes = {
   isEdit: PropTypes.bool,
   currentSchool: PropTypes.object,
+  id: PropTypes.string
 };
 
-export default function SchoolNewEditForm({ isEdit = false, currentSchool }) {
+export default function SchoolNewEditForm({ isEdit = false, currentSchool, id }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch()
@@ -124,8 +125,8 @@ export default function SchoolNewEditForm({ isEdit = false, currentSchool }) {
   const onSubmit = async (data) => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      if (isEdit) {
-        await dispatch(updateSchool(data));
+      if (currentSchool) {
+        await dispatch(updateSchool(data, id));
         enqueueSnackbar("Update success!")
       } else {
         await dispatch(createSchool(data));
@@ -153,6 +154,8 @@ export default function SchoolNewEditForm({ isEdit = false, currentSchool }) {
     },
     [setValue]
   );
+
+  // console.log(values)
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>

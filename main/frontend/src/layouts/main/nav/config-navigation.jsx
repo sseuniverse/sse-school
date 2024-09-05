@@ -13,6 +13,7 @@ const navConfig = [
     icon: <Iconify icon="eva:home-fill" />,
     path: '/',
   },
+  { title: 'About us', path: PATH_PAGE.about },
   {
     title: 'Components',
     icon: <Iconify icon="ic:round-grain" />,

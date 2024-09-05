@@ -54,9 +54,9 @@ export const PATH_DASHBOARD = {
     all: path(ROOTS_DASHBOARD, "/mail/all"),
   },
   chat: {
-    root: path(ROOTS_DASHBOARD, "/chat"),
-    new: path(ROOTS_DASHBOARD, "/chat/new"),
-    view: (name) => path(ROOTS_DASHBOARD, `/chat/${name}`),
+    root: path("/chat"),
+    new: path("/chat/new"),
+    view: (name) => path(`/chat/${name}`),
   },
   user: {
     root: path(ROOTS_DASHBOARD, "/user"),

@@ -108,12 +108,12 @@ export function createSchool(schoolData) {
   };
 }
 
-export function updateSchool(schoolData) {
+export function updateSchool(schoolData, id) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.put(
-        `/api/schools/${schoolData.id}`,
+        `/api/schools/${id}`,
         schoolData
       );
       dispatch(slice.actions.updateSchoolSuccess(response.data));

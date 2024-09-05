@@ -5,11 +5,29 @@ const schoolSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      // unique: true,
     },
     // logo: {
-    //   type: Buffer,
-    //   contentType: String,
+    //   path: {
+    //     type: String,
+    //   },
+    //   preview: {
+    //     type: String,
+    //   },
+    //   lastModified: {
+    //     type: Date,
+    //   },
+    //   lastModifiedDate: {
+    //     type: String,
+    //   },
+    //   name: {
+    //     type: String,
+    //   },
+    //   size: {
+    //     type: Number,
+    //   },
+    //   type: {
+    //     type: String,
+    //   },
     // },
     address: {
       type: String,

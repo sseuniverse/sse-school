@@ -18,8 +18,11 @@ export default defineConfig({
     exclude: ["date-fns", "worker-loader"],
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
-      // plugins: [require.resolve("worker-loader")],
-    },
+      output: {
+        minifyInternalExports: true
+      }
+    }
   },
 });

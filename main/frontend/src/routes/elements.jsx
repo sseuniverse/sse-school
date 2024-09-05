@@ -76,6 +76,14 @@ export const CalendarPage = Loadable(
   lazy(() => import("../pages/dashboard/CalendarPage"))
 );
 
+export const ChatPage = Loadable(
+  lazy(() => import("../pages/ChatPage"))
+);
+
+export const KanbanPage = Loadable(
+  lazy(() => import("../pages/dashboard/KanbanPage"))
+);
+
 // Dashboard: School
 export const SchoolListPage = Loadable(
   lazy(() => import("../pages/dashboard/SchoolListPage"))

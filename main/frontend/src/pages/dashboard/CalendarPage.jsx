@@ -70,7 +70,7 @@ export default function CalendarPage() {
 
   const selectedEvent = useSelector(() => {
     if (selectedEventId) {
-      return events.find((event) => event.id === selectedEventId);
+      return events.find((event) => event._id === selectedEventId);
     }
 
     return null;
@@ -159,13 +159,13 @@ export default function CalendarPage() {
   };
 
   const handleSelectEvent = (arg) => {
-    dispatch(selectEvent(arg.event.id));
+    dispatch(selectEvent(arg.event._id));
   };
 
   const handleResizeEvent = async ({ event }) => {
     try {
       dispatch(
-        updateEvent(event.id, {
+        updateEvent(event._id, {
           allDay: event.allDay,
           start: event.start,
           end: event.end,
@@ -179,7 +179,7 @@ export default function CalendarPage() {
   const handleDropEvent = async ({ event }) => {
     try {
       dispatch(
-        updateEvent(event.id, {
+        updateEvent(event._id, {
           allDay: event.allDay,
           start: event.start,
           end: event.end,

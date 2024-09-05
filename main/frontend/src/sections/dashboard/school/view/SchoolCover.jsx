@@ -43,18 +43,17 @@ ProfileCover.propTypes = {
     cover: PropTypes.string,
     name: PropTypes.string,
     role: PropTypes.string,
+    school: PropTypes.object
 };
 
-export default function ProfileCover({ name, role, cover }) {
-    const { user } = useAuthContext();
-
+export default function ProfileCover({ name, role, cover, school }) {
     return (
         <StyledRoot>
             <StyledInfo>
                 <CustomAvatar
-                    src={user?.photoURL}
-                    alt={user?.displayName}
-                    name={user?.displayName} sx={{
+                    src={school?.photoURL}
+                    alt={school?.name}
+                    name={school?.name} sx={{
                         mx: 'auto',
                         borderWidth: 2,
                         borderStyle: 'solid',

@@ -24,7 +24,7 @@ export default function SchoolEditPage() {
     dispatch(getSchools());
   }, [dispatch]);
 
-  console.log(currentSchool)
+  // console.log(currentSchool)
 
   return (
     <>
@@ -45,7 +45,7 @@ export default function SchoolEditPage() {
           ]}
         />
 
-        <SchoolNewEditForm isEdit currentSchool={currentSchool} />
+        <SchoolNewEditForm isEdit currentSchool={currentSchool} id={id} />
       </Container>
     </>
   );

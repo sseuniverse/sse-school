@@ -38,6 +38,8 @@ import {
   // Dashboard - General
   GeneralAppPage,
   CalendarPage,
+  ChatPage,
+  KanbanPage,
 
   // Dashboard - School
   SchoolListPage,
@@ -46,7 +48,7 @@ import {
   SchoolViewPage
 } from "./elements";
 
-const roleAd = "admin";
+const roleAd = "owner";
 const roleTe = "teacher";
 
 // ----------------------------------------------------------------------
@@ -98,6 +100,8 @@ export default function Router() {
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: "app", element: <GeneralAppPage /> },
         { path: "permission-denied", element: <PermissionDeniedPage /> },
+        { path: 'calendar', element: <CalendarPage /> },
+        { path: 'kanban', element: <KanbanPage /> },
         {
           path: "user",
           children: [
@@ -161,6 +165,14 @@ export default function Router() {
         { path: "/", element: <HomePage /> },
         { path: "/about-us", element: <AboutPage /> },
         { path: "/contact-us", element: <ContactPage /> },
+        {
+          path: "chat",
+          children: [
+            { element: <ChatPage />, index: true },
+            { path: 'new', element: <ChatPage /> },
+            { path: ':conversationKey', element: <ChatPage /> },
+          ]
+        },
       ],
     },
     {

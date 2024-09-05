@@ -31,7 +31,7 @@ export default function Header() {
   const isDesktop = useResponsive("up", "md");
   const isOffset = useOffSetTop(HEADER.H_MAIN_DESKTOP);
 
-  console.log(user);
+  // console.log(user);
 
   return (
     <AppBar ref={carouselRef} color="transparent" sx={{ boxShadow: 0 }}>

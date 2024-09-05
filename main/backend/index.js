@@ -7,6 +7,7 @@ const userRouter = require("./src/routes/user.js");
 const eventRouter = require("./src/routes/event.js");
 const chatRoute = require("./src/routes/chat.js");
 const schoolRoute = require("./src/routes/school.js");
+const kanbanRoute = require("./src/routes/kanban.js");
 const { verifyToken } = require("./src/middelware/auth.js");
 
 // Connect to MongoDB
@@ -40,6 +41,7 @@ app.use("/api/account", userRouter);
 app.use("/api/calendar", eventRouter);
 app.use("/api/chat", chatRoute);
 app.use("/api/schools", schoolRoute);
+app.use("/api/kanban", kanbanRoute);
 
 // Use middleware to verify token for protected routes
 app.use("/api/account/my-account", verifyToken);

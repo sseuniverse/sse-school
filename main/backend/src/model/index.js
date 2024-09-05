@@ -2,6 +2,7 @@ const userModel = require("./user.model.js");
 const eventModel = require("./event.model.js");
 const { chatModel, attachmentModel, messageModel } = require("./chat.model.js");
 const schoolModel = require("./school.model.js");
+const { Column, Task, Board } = require("./kanban.model.js");
 
 exports.m = {
   user: userModel,
@@ -10,4 +11,9 @@ exports.m = {
   attachment: attachmentModel,
   message: messageModel,
   school: schoolModel,
+  kanban: {
+    board: Board,
+    task: Task,
+    column: Column,
+  },
 };
