@@ -38,8 +38,8 @@ The School Management System is a comprehensive platform designed to streamline 
 
 ### Security and Access Control
 
-- [ ] Role-based access control for administrators, faculty, and students
-- [ ] Data encryption and secure authentication
+- [x] Role-based access control for administrators, faculty, and students
+- [x] Data encryption and secure authentication
 
 ## Technical Requirements
 -------------------------
