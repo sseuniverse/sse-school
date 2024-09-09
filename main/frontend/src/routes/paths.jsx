@@ -109,7 +109,7 @@ export const PATH_DASHBOARD = {
   },
   blog: {
     root: path(ROOTS_DASHBOARD, "/blog"),
-    posts: path(ROOTS_DASHBOARD, "/blog/posts"),
+    posts: path(ROOTS_DASHBOARD, "/post/list"),
     new: path(ROOTS_DASHBOARD, "/blog/new"),
     view: (title) => path(ROOTS_DASHBOARD, `/blog/post/${title}`),
     demoView: path(

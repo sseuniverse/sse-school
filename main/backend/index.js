@@ -8,7 +8,8 @@ const eventRouter = require("./src/routes/event.js");
 const chatRoute = require("./src/routes/chat.js");
 const schoolRoute = require("./src/routes/school.js");
 const kanbanRoute = require("./src/routes/kanban.js");
-const { verifyToken } = require("./src/middelware/auth.js");
+// const { verifyToken } = require("./src/middelware/auth.js");
+const requestIp = require("request-ip");
 
 // Connect to MongoDB
 mongoose
@@ -33,7 +34,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   })
 );
-
+app.use(requestIp.mw({ enableProxy: true }));
 app.use(cookieParser());
 
 // Define the API routes
@@ -44,7 +45,20 @@ app.use("/api/schools", schoolRoute);
 app.use("/api/kanban", kanbanRoute);
 
 // Use middleware to verify token for protected routes
-app.use("/api/account/my-account", verifyToken);
+// app.use("/api/account/my-account", verifyToken);
+
+// API endpoint to get client's IP address
+app.get("/api/ipv4", (req, res) => {
+  const ipv4Address = requestIp.getClientIp(req, { version: 4, mapIPv6: true })
+  res.json({ ipv4: ipv4Address })
+})
+
+// API endpoint to get client's IP address with additional information
+app.get("/api/ip-info", (req, res) => {
+  const clientIp = req.clientIp;
+  const userAgent = req.headers["user-agent"];
+  res.json({ ip: clientIp, userAgent });
+});
 
 // Start the server
 const port = 3001;

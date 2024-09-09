@@ -1,8 +1,8 @@
-import { paramCase, snakeCase } from 'change-case';
+import { kebabCase, snakeCase } from 'change-case';
 
 // ----------------------------------------------------------------------
 
-const getHref = (category, name) => `/components/${category}/${paramCase(name)}`;
+const getHref = (category, name) => `/components/${category}/${kebabCase(name)}`;
 
 export const foundation = ['Colors', 'Typography', 'Shadows', 'Grid', 'Icons'].map((name) => ({
   name,

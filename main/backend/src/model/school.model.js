@@ -80,6 +80,26 @@ const schoolSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    social: {
+      github: {
+        type: String,
+      },
+      facebook: {
+        type: String,
+      },
+      instagram: {
+        type: String,
+      },
+      linkedIn: {
+        type: String,
+      },
+      twitter: {
+        type: String,
+      },
+      // github: {
+      //   type: String,
+      // },
+    },
     levels: {
       type: [
         {

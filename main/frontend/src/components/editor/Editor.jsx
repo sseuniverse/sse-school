@@ -18,7 +18,7 @@ Editor.propTypes = {
 };
 
 export default function Editor({
-  id = 'minimal-quill',
+  id = 'sse-quill',
   error,
   value,
   onChange,

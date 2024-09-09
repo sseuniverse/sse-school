@@ -55,15 +55,10 @@ const COLOR_OPTIONS = [
 
 export default function CalendarPage() {
   const { enqueueSnackbar } = useSnackbar();
-
   const { themeStretch } = useSettingsContext();
-
   const dispatch = useDispatch();
-
   const isDesktop = useResponsive("up", "sm");
-
   const calendarRef = useRef(null);
-
   const { events, openModal, selectedRange, selectedEventId } = useSelector(
     (state) => state.calendar
   );
@@ -77,13 +72,9 @@ export default function CalendarPage() {
   });
 
   const picker = useDateRangePicker(null, null);
-
   const [date, setDate] = useState(new Date());
-
   const [openFilter, setOpenFilter] = useState(false);
-
   const [filterEventColor, setFilterEventColor] = useState([]);
-
   const [view, setView] = useState(isDesktop ? "dayGridMonth" : "listWeek");
 
   useEffect(() => {
@@ -254,7 +245,7 @@ export default function CalendarPage() {
               name: "Calendar",
             },
           ]}
-          moreLink={["https://fullcalendar.io/docs/react"]}
+          // moreLink={["https://fullcalendar.io/docs/react"]}
           action={
             <Button
               variant="contained"

@@ -41,11 +41,16 @@ import {
   ChatPage,
   KanbanPage,
 
+  // Dashboard - Blog
+  BlogNewPostPage,
+  BlogPostPage,
+  BlogPostsPage,
+
   // Dashboard - School
   SchoolListPage,
   SchoolCreatePage,
   SchoolEditPage,
-  SchoolViewPage
+  SchoolViewPage,
 } from "./elements";
 
 const roleAd = "owner";
@@ -75,8 +80,8 @@ export default function Router() {
             </GuestGuard>
           ),
         },
-        { path: "login-unprotected", element: <LoginPage /> },
-        { path: "register-unprotected", element: <RegisterPage /> },
+        // { path: "login-unprotected", element: <LoginPage /> },
+        // { path: "register-unprotected", element: <RegisterPage /> },
         {
           element: <CompactLayout />,
           children: [
@@ -100,8 +105,8 @@ export default function Router() {
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: "app", element: <GeneralAppPage /> },
         { path: "permission-denied", element: <PermissionDeniedPage /> },
-        { path: 'calendar', element: <CalendarPage /> },
-        { path: 'kanban', element: <KanbanPage /> },
+        { path: "calendar", element: <CalendarPage /> },
+        { path: "kanban", element: <KanbanPage /> },
         {
           path: "user",
           children: [
@@ -115,6 +120,18 @@ export default function Router() {
             { path: "new", element: <UserCreatePage /> },
             { path: ":name/edit", element: <UserEditPage /> },
             { path: "account", element: <UserAccountPage /> },
+          ],
+        },
+        {
+          path: "blog",
+          children: [
+            {
+              element: <Navigate to="/dashboard/blog/posts" replace />,
+              index: true,
+            },
+            { path: "posts", element: <BlogPostsPage /> },
+            { path: "post/:title", element: <BlogPostPage /> },
+            { path: "new", element: <BlogNewPostPage /> },
           ],
         },
         {
@@ -150,8 +167,8 @@ export default function Router() {
             },
             {
               path: ":id",
-              element: <SchoolViewPage />
-            }
+              element: <SchoolViewPage />,
+            },
           ],
         },
         // { path: "calendar", element: <CalendarPage /> },
@@ -169,9 +186,9 @@ export default function Router() {
           path: "chat",
           children: [
             { element: <ChatPage />, index: true },
-            { path: 'new', element: <ChatPage /> },
-            { path: ':conversationKey', element: <ChatPage /> },
-          ]
+            { path: "new", element: <ChatPage /> },
+            { path: ":conversationKey", element: <ChatPage /> },
+          ],
         },
       ],
     },

@@ -17,8 +17,9 @@ import { BrowserRouter } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Provider as ReduxProvider } from "react-redux";
 import { PersistGate } from "redux-persist/lib/integration/react";
+import React from "react";
 // @mui
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+// import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 // redux
 import { store, persistor } from "./redux/store";
@@ -40,12 +41,32 @@ import { AuthProvider } from "./auth/JwtContext";
 // import { AuthProvider } from './auth/AwsCognitoContext';
 
 function App() {
+  React.useEffect(() => {
+    document.addEventListener("contextmenu", (e) => e.preventDefault());
+
+    function ctrlShiftKey(e, keyCode) {
+      return e.ctrlKey && e.shiftKey && e.keyCode === keyCode.charCodeAt(0);
+    }
+
+    document.onkeydown = (e) => {
+      // Disable F12, Ctrl + Shift + I, Ctrl + Shift + J, Ctrl + U
+      if (
+        event.keyCode === 123 ||
+        ctrlShiftKey(e, "I") ||
+        ctrlShiftKey(e, "J") ||
+        ctrlShiftKey(e, "C") ||
+        (e.ctrlKey && e.keyCode === "U".charCodeAt(0))
+      )
+        return false;
+    };
+  }, []);
+
   return (
     <AuthProvider>
       <HelmetProvider>
         <ReduxProvider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
               <SettingsProvider>
                 <BrowserRouter>
                   <ScrollToTop />
@@ -63,7 +84,7 @@ function App() {
                   </MotionLazyContainer>
                 </BrowserRouter>
               </SettingsProvider>
-            </LocalizationProvider>
+            {/* </LocalizationProvider> */}
           </PersistGate>
         </ReduxProvider>
       </HelmetProvider>

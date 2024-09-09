@@ -45,7 +45,7 @@ const slice = createSlice({
     updateEventSuccess(state, action) {
       state.isLoading = false;
       state.events = state.events.map((event) => {
-        if (event.id === action.payload.id) {
+        if (event._id === action.payload._id) {
           return action.payload;
         }
         return event;
@@ -55,7 +55,7 @@ const slice = createSlice({
     // DELETE EVENT
     deleteEventSuccess(state, action) {
       const eventId = action.payload;
-      state.events = state.events.filter((event) => event.id !== eventId);
+      state.events = state.events.filter((event) => event._id !== eventId);
     },
 
     // SELECT EVENT

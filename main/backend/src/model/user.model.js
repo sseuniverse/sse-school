@@ -41,7 +41,7 @@ const accountSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "student", "teacher"],
+      enum: ["admin", "student", "teacher", "owner", "editor"],
     },
     isPublic: {
       type: Boolean,
@@ -50,6 +50,7 @@ const accountSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 

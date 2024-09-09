@@ -2,7 +2,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { m } = require("../model");
 const { JWT_EXPIRES_IN, JWT_SECRET } = require("../utils");
-
+// const requestIp = require("request-ip");
+const { generateToken } = require("../middelware/auth.js");
 const User = m.user;
 
 exports.Register = async (req, res) => {
@@ -11,9 +12,9 @@ exports.Register = async (req, res) => {
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    return res.status(400).json({ error: 'Email already exists' });
+    return res.status(400).json({ error: "Email already exists" });
   }
-  
+
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({
     email,
@@ -21,9 +22,7 @@ exports.Register = async (req, res) => {
     displayName,
   });
   await user.save();
-  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
-  });
+  const accessToken = generateToken(user);
   res.json({ accessToken, user });
 };
 
@@ -37,9 +36,7 @@ exports.Login = async (req, res) => {
   if (!isValidPassword) {
     return res.status(401).json({ error: "Invalid password" });
   }
-  const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
-  });
+  const accessToken = generateToken(user);
   res.json({ accessToken, user });
 };
 
@@ -65,7 +62,7 @@ exports.Logout = async (req, res) => {
 
 exports.DeleteAccount = async (req, res) => {
   const { authorization } = req.headers;
-  const { email, password } = req.body
+  const { email, password } = req.body;
   if (!authorization) {
     return res.status(401).json({
       message: "Authorization token missing",
@@ -77,13 +74,13 @@ exports.DeleteAccount = async (req, res) => {
   const userId = data.userId;
   const uid = await User.findOne({ email: email });
   const isValidPassword = await bcrypt.compare(password, uid.password);
-  if(uid._id === userId){
+  if (uid._id === userId) {
     if (!isValidPassword) {
       return res.status(401).json({ error: "Invalid password" });
     }
-    User.findByIdAndDelete(userId)
-    res.status(200).json("Account Deleted Successfully")
+    User.findByIdAndDelete(userId);
+    res.status(200).json("Account Deleted Successfully");
   } else {
-    res.status(401).json("Account Deleted Successfully")
+    res.status(401).json("Account Deleted Successfully");
   }
-}
+};

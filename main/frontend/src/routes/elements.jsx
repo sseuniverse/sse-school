@@ -4,11 +4,11 @@ import LoadingScreen from "../components/loading-screen";
 // ----------------------------------------------------------------------
 
 const Loadable = (Component) => (props) =>
-(
-  <Suspense fallback={<LoadingScreen />}>
-    <Component {...props} />
-  </Suspense>
-);
+  (
+    <Suspense fallback={<LoadingScreen />}>
+      <Component {...props} />
+    </Suspense>
+  );
 
 // ----------------------------------------------------------------------
 
@@ -63,6 +63,17 @@ export const UserEditPage = Loadable(
   lazy(() => import("../pages/dashboard/UserEditPage"))
 );
 
+// DASHBOARD: BLOG
+export const BlogPostsPage = Loadable(
+  lazy(() => import("../pages/dashboard/BlogPostsPage"))
+);
+export const BlogPostPage = Loadable(
+  lazy(() => import("../pages/dashboard/BlogPostPage"))
+);
+export const BlogNewPostPage = Loadable(
+  lazy(() => import("../pages/dashboard/BlogNewPostPage"))
+);
+
 // DASHBOARD: GENERAL
 export const GeneralAppPage = Loadable(
   lazy(() => import("../pages/dashboard/GeneralAppPage"))
@@ -76,9 +87,7 @@ export const CalendarPage = Loadable(
   lazy(() => import("../pages/dashboard/CalendarPage"))
 );
 
-export const ChatPage = Loadable(
-  lazy(() => import("../pages/ChatPage"))
-);
+export const ChatPage = Loadable(lazy(() => import("../pages/ChatPage")));
 
 export const KanbanPage = Loadable(
   lazy(() => import("../pages/dashboard/KanbanPage"))
