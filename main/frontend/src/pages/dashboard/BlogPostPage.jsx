@@ -13,7 +13,7 @@ import {
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // utils
-import { axios1 } from "../../utils/axios";
+import axios from "../../utils/axios";
 // components
 import Markdown from "../../components/markdown";
 import CustomBreadcrumbs from "../../components/custom-breadcrumbs";
@@ -40,11 +40,9 @@ export default function BlogPostPage() {
 
   const getPost = useCallback(async () => {
     try {
-      const response = await axios1.get("/api/post/post", {
-        params: { title },
-      });
+      const response = await axios.get(`/api/posts/detail/${title}`);
 
-      setPost(response.data.post);
+      setPost(response.data.article);
       setLoadingPost(false);
     } catch (error) {
       console.error(error);
@@ -55,11 +53,8 @@ export default function BlogPostPage() {
 
   const getRecentPosts = useCallback(async () => {
     try {
-      const response = await axios1.get("/api/post/list/recent", {
-        params: { title },
-      });
-
-      setRecentPosts(response.data.recentPosts);
+      const response = await axios.get(`/api/posts/detail/${title}`);
+      setRecentPosts(response.data.article);
     } catch (error) {
       console.error(error);
     }
@@ -184,7 +179,7 @@ export default function BlogPostPage() {
 
         {loadingPost && <SkeletonPostDetails />}
 
-        {!!recentPosts.length && (
+        {!!recentPosts?.length && (
           <>
             <Typography variant="h4" sx={{ my: 5 }}>
               Recent posts
@@ -199,7 +194,7 @@ export default function BlogPostPage() {
                 md: "repeat(4, 1fr)",
               }}
             >
-              {recentPosts.slice(recentPosts.length - 4).map((recentPost) => (
+              {recentPosts?.slice(recentPosts?.length - 4).map((recentPost) => (
                 <BlogPostCard key={recentPost.id} post={recentPost} />
               ))}
             </Box>

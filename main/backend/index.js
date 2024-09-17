@@ -8,8 +8,11 @@ const eventRouter = require("./src/routes/event.js");
 const chatRoute = require("./src/routes/chat.js");
 const schoolRoute = require("./src/routes/school.js");
 const kanbanRoute = require("./src/routes/kanban.js");
+const studentRoute = require("./src/routes/student.js");
+const postRoute = require("./src/routes/blog.js");
 // const { verifyToken } = require("./src/middelware/auth.js");
 const requestIp = require("request-ip");
+const fs = require("fs");
 
 // Connect to MongoDB
 mongoose
@@ -43,15 +46,17 @@ app.use("/api/calendar", eventRouter);
 app.use("/api/chat", chatRoute);
 app.use("/api/schools", schoolRoute);
 app.use("/api/kanban", kanbanRoute);
+app.use("/api/student", studentRoute);
+app.use("/api/posts", postRoute);
 
 // Use middleware to verify token for protected routes
 // app.use("/api/account/my-account", verifyToken);
 
 // API endpoint to get client's IP address
 app.get("/api/ipv4", (req, res) => {
-  const ipv4Address = requestIp.getClientIp(req, { version: 4, mapIPv6: true })
-  res.json({ ipv4: ipv4Address })
-})
+  const ipv4Address = requestIp.getClientIp(req, { version: 4, mapIPv6: true });
+  res.json({ ipv4: ipv4Address });
+});
 
 // API endpoint to get client's IP address with additional information
 app.get("/api/ip-info", (req, res) => {
@@ -64,4 +69,10 @@ app.get("/api/ip-info", (req, res) => {
 const port = 3001;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
+});
+
+app.get("/docs", function (req, res) {
+  fs.readFile("./src/docs.md", "utf-8", (err, result) => {
+    res.send(result);
+  });
 });

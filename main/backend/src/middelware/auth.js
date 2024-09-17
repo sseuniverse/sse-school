@@ -7,6 +7,29 @@ exports.generateToken = (user) => {
   });
 };
 
+/**
+ * Authenticate
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Next middleware function
+ */
+exports.authenticate = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(401).json({
+        message: "Authorization token missing",
+      });
+    }
+    // console.log(authorization);
+    const accessToken = authorization.split(" ")[1];
+    const data = jwt.verify(accessToken, JWT_SECRET);
+    req.userId = data.userId;
+  } catch (err) {
+    return res.status(401).send({ message: "Unauthorized" });
+  }
+};
+
 // exports.verifyToken = async (req, res, next) => {
 //   const token = req.headers["x-access-token"];
 //   if (!token) {

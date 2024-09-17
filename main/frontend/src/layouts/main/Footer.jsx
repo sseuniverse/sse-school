@@ -13,7 +13,7 @@ import Iconify from '../../components/iconify';
 
 const LINKS = [
   {
-    headline: 'Minimal',
+    headline: 'SSE Pages',
     children: [
       { name: 'About us', href: PATH_PAGE.about },
       { name: 'Contact us', href: PATH_PAGE.contact },
@@ -109,8 +109,8 @@ export default function Footer() {
               }}
             >
               {_socials.map((social) => (
-                <IconButton key={social.name}>
-                  <Iconify icon={social.icon} />
+                <IconButton key={social.name} color={social.color}>
+                  <Iconify icon={social.icon} color={social.color} />
                 </IconButton>
               ))}
             </Stack>

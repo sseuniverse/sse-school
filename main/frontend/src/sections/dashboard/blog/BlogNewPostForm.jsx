@@ -15,6 +15,8 @@ import FormProvider, {
   RHFAutocomplete,
 } from "../../../components/hook-form";
 import BlogNewPostPreview from "./BlogNewPostPreview";
+import axios from "../../../utils/axios";
+import { useAuthContext } from "../../../auth/useAuthContext";
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +42,11 @@ export default function BlogNewPostForm() {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const [openPreview, setOpenPreview] = useState(false);
+  const { user } = useAuthContext();
+
+  const lo = user.photoURL
+    ? user.photoURL
+    : "https://assets.minimals.cc/public/assets/images/mock/avatar/avatar-25.webp";
 
   const NewBlogSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -48,6 +55,11 @@ export default function BlogNewPostForm() {
     metaKeywords: Yup.array().min(1, "Meta keywords is required"),
     cover: Yup.mixed().required("Cover is required").nullable(true),
     content: Yup.string().required("Content is required"),
+    author: Yup.object().shape({
+      _id: Yup.string().default(user._id),
+      name: Yup.string().default(user.displayName),
+      avatarUrl: Yup.string().default(lo),
+    }),
   });
 
   const defaultValues = {
@@ -57,10 +69,15 @@ export default function BlogNewPostForm() {
     cover: null,
     tags: ["The Kid"],
     publish: true,
-    comments: true,
+    comment: true,
     metaTitle: "",
     metaDescription: "",
     metaKeywords: [],
+    author: {
+      _id: user._id,
+      name: user.displayName,
+      avatarUrl: lo,
+    },
   };
 
   const methods = useForm({
@@ -77,6 +94,7 @@ export default function BlogNewPostForm() {
   } = methods;
 
   const values = watch();
+  // console.log(values);
 
   const handleOpenPreview = () => {
     setOpenPreview(true);
@@ -88,12 +106,13 @@ export default function BlogNewPostForm() {
 
   const onSubmit = async (data) => {
     try {
+      const response = await axios.post("/api/posts", data);
       await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       handleClosePreview();
       enqueueSnackbar("Post success!");
       navigate(PATH_DASHBOARD.blog.posts);
-      console.log("DATA", data);
+      // console.log("DATA", response);
     } catch (error) {
       console.error(error);
     }
@@ -180,7 +199,7 @@ export default function BlogNewPostForm() {
                 />
 
                 <RHFSwitch
-                  name="comments"
+                  name="comment"
                   label="Enable comments"
                   labelPlacement="start"
                   sx={{ mx: 0, width: 1, justifyContent: "space-between" }}

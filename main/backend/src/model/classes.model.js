@@ -14,6 +14,9 @@ const classSchema = new mongoose.Schema(
     schoolUid: {
       type: String,
     },
+    room: {
+      type: String,
+    },
     // sections: [
     //   {
     //     name: {

@@ -5,7 +5,7 @@ import { useEffect, useCallback, useState } from "react";
 // @mui
 import { Grid, Button, Container, Stack } from "@mui/material";
 // utils
-import { axios1 } from "../../utils/axios";
+import axios from "../../utils/axios";
 // routes
 import { PATH_DASHBOARD } from "../../routes/paths";
 // components
@@ -35,10 +35,11 @@ export default function BlogPostsPage() {
   const [posts, setPosts] = useState([]);
   const [sortBy, setSortBy] = useState("latest");
   const sortedPosts = applySortBy(posts, sortBy);
+  // console.log(posts)
 
   const getAllPosts = useCallback(async () => {
     try {
-      const response = await axios1.get("/api/post/list");
+      const response = await axios.get("/api/posts/list");
       setPosts(response.data.posts);
     } catch (error) {
       console.error(error);
